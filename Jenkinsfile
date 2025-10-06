@@ -15,8 +15,6 @@ pipeline {
                 git branch: 'main', url: 'https://gitlab.com/deploya/task-manager.git'
             }
         }
-        
-        stage('Build Docker Image') {
             steps {
                 script {
                     // Gọi hàm DockerBuild
@@ -25,4 +23,3 @@ pipeline {
             }
         }
     }
-}
