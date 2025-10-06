@@ -1,22 +1,27 @@
+@Library('cicd-test@main') _
 pipeline {
     agent any
-    stages {
-        // stage('Checkout') {
-        //     steps {
-        //         git 'https://github.com/hoanglinhdigital/nodejs-random-color.git'
-        //     }
-        // }
 
-        stage('Build') {
-            steps {
-                sh 'docker build -t nodejs-random-color:ver-${BUILD_ID} .'
+    environment {
+        CONFIG_URI = "https://gitlab.com/devops-jenkin/test-jenkin.git"
+        DOCKERFILE = "cicd/Dockerfile"
+        IMAGE_NAME = "${env.BRANCH_NAME}/my-app"
+        IMAGE_TAG = "v1.0.0"
+    }
+
+    stages {
+        stage('checkout'){
+            steps{
+                git branch: 'main', url: 'https://gitlab.com/deploya/task-manager.git'
             }
         }
-        stage('Upload image to ECR') {
+        
+        stage('Build Docker Image') {
             steps {
-                sh 'aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 430950558682.dkr.ecr.ap-southeast-1.amazonaws.com'
-                sh 'docker tag nodejs-random-color:ver-${BUILD_ID} 430950558682.dkr.ecr.ap-southeast-1.amazonaws.com/nodejs-random-color:ver-${BUILD_ID}'
-                sh 'docker push 430950558682.dkr.ecr.ap-southeast-1.amazonaws.com/nodejs-random-color:ver-${BUILD_ID}'
+                script {
+                    // Gọi hàm DockerBuild
+                    DockerBuild(CONFIG_URI, DOCKERFILE, IMAGE_NAME, IMAGE_TAG)
+                }
             }
         }
     }
