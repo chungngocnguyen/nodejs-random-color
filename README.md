@@ -1,3 +1,4 @@
+
 # GitHub Environments Setup for Manual Approvals
 
 To enable manual approval steps in your GitHub Actions workflows, you need to set up **Environments** with protection rules.
