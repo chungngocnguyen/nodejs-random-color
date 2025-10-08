@@ -10,11 +10,7 @@ pipeline {
     }
 
     stages {
-        stage('checkout'){
-            steps{
-                git branch: 'main', url: 'https://gitlab.com/deploya/task-manager.git'
-            }
-        }
+        stage('Build Docker'){
             steps {
                 script {
                     // Gọi hàm DockerBuild
@@ -23,3 +19,4 @@ pipeline {
             }
         }
     }
+}
