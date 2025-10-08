@@ -14,6 +14,8 @@ pipeline {
             steps {
                 script {
                     // Gọi hàm DockerBuild
+                    env.CI_COMMIT_SHORT = env.GIT_COMMIT.take(7)
+                    echo "CI_COMMIT_SHORT = ${env.CI_COMMIT_SHORT}"
                     DockerBuild(CONFIG_URI, DOCKERFILE, IMAGE_NAME, IMAGE_TAG)
                 }
             }
