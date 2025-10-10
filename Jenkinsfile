@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     environment {
-        SERVICE_NAME = my-app
+        SERVICE_NAME = "my-app"
         CONFIG_URI = "https://gitlab.com/devops-jenkin/test-jenkin.git"
         DOCKERFILE = "cicd/Dockerfile"
         IMAGE_NAME = "${env.BRANCH_NAME}/my-app"
