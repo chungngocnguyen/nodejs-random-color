@@ -6,7 +6,7 @@ pipeline {
         CONFIG_URI = "https://gitlab.com/devops-jenkin/test-jenkin.git"
         DOCKERFILE = "cicd/Dockerfile"
         IMAGE_NAME = "${env.BRANCH_NAME}/my-app"
-        IMAGE_TAG = "v1.0.0"
+        IMAGE_TAG = "${env.GIT_COMMIT.take(7)}"
     }
 
     stages {
@@ -14,11 +14,16 @@ pipeline {
             steps {
                 script {
                     // Gọi hàm DockerBuild
-                    env.CI_COMMIT_SHORT = env.GIT_COMMIT.take(7)
-                    echo "CI_COMMIT_SHORT = ${env.CI_COMMIT_SHORT}"
                     DockerBuild(CONFIG_URI, DOCKERFILE, IMAGE_NAME, IMAGE_TAG)
                 }
             }
         }
     }
+
+    post {
+        success {
+            notify-success()
+        }
+    }
+}
 }
