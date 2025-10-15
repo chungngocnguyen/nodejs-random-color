@@ -25,5 +25,8 @@ pipeline {
         success {
             notifySuccess()
         }
+        failure {
+            notifyFailed()
+        }
     }
 }
